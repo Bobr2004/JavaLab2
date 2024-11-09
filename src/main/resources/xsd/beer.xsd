@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Перелічуваний тип для Type -->
+    <xs:simpleType name="BeerType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="темне"/>
+            <xs:enumeration value="світле"/>
+            <xs:enumeration value="лагерне"/>
+            <xs:enumeration value="живе"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Перелічуваний тип для Al -->
+    <xs:simpleType name="AlcoholType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="алкогольне"/>
+            <xs:enumeration value="безалкогольне"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Граничні значення для обертів та прозорості -->
+    <xs:simpleType name="PercentageType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Основний елемент Beer -->
+    <xs:element name="Beer">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="beerItem" maxOccurs="unbounded"> <!-- renamed from "beer" -->
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ingredients">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="ingredient" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="chars">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="abv" type="xs:decimal" minOccurs="0"/>
+                                        <xs:element name="transparency" type="PercentageType"/>
+                                        <xs:element name="filtered" type="xs:string"/>
+                                        <xs:element name="nutritionalValue" type="xs:int"/>
+                                        <xs:element name="packaging">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="volume" type="xs:decimal"/>
+                                                    <xs:element name="material" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:integer" use="required"/>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                        <xs:attribute name="type" type="BeerType" use="required"/>
+                        <xs:attribute name="al" type="AlcoholType" use="required"/>
+                        <xs:attribute name="manufacturer" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>
