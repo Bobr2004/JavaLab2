@@ -20,7 +20,6 @@ public class XSLTTransformerTest {
 
     @AfterEach
     public void tearDown() {
-        // Clean up the output file after each test
         File outputFile = new File(OUTPUT_FILE_PATH);
         if (outputFile.exists()) {
             outputFile.delete();
@@ -29,27 +28,21 @@ public class XSLTTransformerTest {
 
     @Test
     public void testXSLTTransformation() {
-        // Execute the transformation
         XSLTTransformer.main(new String[]{});
 
-        // Verify the output file is created
         File outputFile = new File(OUTPUT_FILE_PATH);
         assertTrue(outputFile.exists(), "Output file should be created after transformation");
     }
 
     @Test
     public void testOutputFileContent() throws Exception {
-        // Execute the transformation
         XSLTTransformer.main(new String[]{});
 
-        // Verify the output file is created
         File outputFile = new File(OUTPUT_FILE_PATH);
         assertTrue(outputFile.exists(), "Output file should be created after transformation");
 
-        // Read the content of the output file
         String content = new String(Files.readAllBytes(outputFile.toPath()));
 
-        // You can add further assertions based on expected content.
         assertTrue(content.contains(" <Manufacturer>Brewery A</Manufacturer>"), "Output should contain expected elements");
     }
 }

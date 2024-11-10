@@ -23,22 +23,17 @@ class StAXParserTest {
     void setUp() {
         stAXParser = new StAXParser();
         mockLogger = Mockito.mock(Logger.class);
-        // Inject mockLogger into stAXParser if possible, or verify log calls directly.
     }
 
     @Test
     void testParseXML_ValidXML_ReturnsBeerList() {
-        // Arrange
-        String xmlFilePath = "src/test/resources/test_beer.xml"; // Ensure this file exists
+        String xmlFilePath = "src/test/resources/test_beer.xml";
 
-        // Act
         List<Beer.BeerItem> beerItems = stAXParser.parseXML(xmlFilePath);
 
-        // Assert
         assertNotNull(beerItems);
-        assertEquals(3, beerItems.size()); // Adjust based on expected item count in XML
+        assertEquals(3, beerItems.size()); 
 
-        // Validate first beer item
         Beer.BeerItem firstBeer = beerItems.get(0);
         assertEquals(BigInteger.valueOf(1), firstBeer.getId());
         assertEquals("Stout", firstBeer.getName());
@@ -46,19 +41,16 @@ class StAXParserTest {
         assertEquals(AlcoholType.АЛКОГОЛЬНЕ, firstBeer.getAl());
         assertEquals("Brewery A", firstBeer.getManufacturer());
 
-        // Validate ingredients
         List<String> ingredients = firstBeer.getIngredients().getIngredient();
         assertTrue(ingredients.contains("Water"));
         assertTrue(ingredients.contains("Hops"));
 
-        // Validate characteristics
         Beer.BeerItem.Chars chars = firstBeer.getChars();
         assertEquals(new BigDecimal("6.5"), chars.getAbv());
         assertEquals(new BigDecimal("20"), chars.getTransparency());
         assertEquals("Yes", chars.getFiltered());
         assertEquals(150, chars.getNutritionalValue());
 
-        // Validate packaging
         Beer.BeerItem.Chars.Packaging packaging = chars.getPackaging();
         assertEquals(new BigDecimal("0.5"), packaging.getVolume());
         assertEquals("Glass", packaging.getMaterial());
@@ -66,13 +58,10 @@ class StAXParserTest {
 
     @Test
     void testParseXML_InvalidXML_ReturnsEmptyList() {
-        // Arrange
-        String xmlFilePath = "src/test/resources/invalid_beer.xml"; // Ensure this file exists and is invalid
+        String xmlFilePath = "src/test/resources/invalid_beer.xml";
 
-        // Act
         List<Beer.BeerItem> beerItems = stAXParser.parseXML(xmlFilePath);
 
-        // Assert
         assertNotNull(beerItems);
         assertTrue(beerItems.isEmpty());
     }
